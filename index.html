@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>André Costa — Analista de Sistemas · ERP · SQL · Processos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080810;
+    --surface: #10101c;
+    --surface2: #17172a;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --warn: #f59e0b;
+    --text: #e8e8f2;
+    --muted: #64748b;
+    --border: rgba(255,255,255,0.06);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+  body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(8,8,16,0.88); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 9rem 4rem 5rem; position: relative; overflow: hidden; }
+  .orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(90px); }
+  .o1 { width: 700px; height: 500px; background: radial-gradient(ellipse, rgba(0,229,255,0.07), transparent 70%); right: -100px; top: 50%; transform: translateY(-50%); }
+  .o2 { width: 400px; height: 400px; background: radial-gradient(ellipse, rgba(124,58,237,0.06), transparent 70%); left: -50px; bottom: 0; }
+  .hero-content { max-width: 800px; position: relative; z-index: 2; }
+  .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.18); color: var(--accent); padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 2rem; animation: up 0.7s ease both; }
+  .pulse { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: blink 2s ease infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(3.2rem, 6.5vw, 6rem); font-weight: 800; line-height: 1.03; letter-spacing: -0.035em; animation: up 0.7s 0.1s ease both; }
+  .ghost { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.18); }
+  .ac { color: var(--accent); }
+  .hero-sub { margin-top: 1.8rem; font-size: 1.1rem; color: var(--muted); max-width: 560px; line-height: 1.85; animation: up 0.7s 0.2s ease both; }
+  .hero-cta { margin-top: 2.5rem; display: flex; gap: 1rem; animation: up 0.7s 0.3s ease both; }
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.8rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s, background 0.2s; cursor: pointer; border: none; font-family: inherit; }
+  .btn-f { background: var(--accent); color: #000; box-shadow: 0 0 28px rgba(0,229,255,0.22); }
+  .btn-f:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,229,255,0.38); }
+  .btn-o { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-o:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.15); }
+  .hero-nums { margin-top: 4.5rem; display: flex; gap: 3.5rem; animation: up 0.7s 0.4s ease both; }
+  .nv { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; line-height: 1; }
+  .nv em { color: var(--accent); font-style: normal; }
+  .nl { font-size: 0.78rem; color: var(--muted); margin-top: 0.35rem; letter-spacing: 0.04em; }
+  @keyframes up { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+  section { padding: 7rem 4rem; }
+  .ey { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.8rem; }
+  .st { font-family: 'Syne', sans-serif; font-size: clamp(1.9rem, 3vw, 3rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; }
+  .sl { color: var(--muted); font-size: 1rem; line-height: 1.85; max-width: 540px; margin-top: 0.8rem; }
+  .mx { max-width: 1120px; margin: 0 auto; }
+
+  .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .sobre-left p { color: var(--muted); line-height: 1.95; margin-bottom: 1.1rem; font-size: 0.97rem; }
+  .sobre-left p strong { color: var(--text); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+  .chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.9rem; font-size: 0.78rem; font-weight: 500; color: var(--muted); }
+  .sk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .sk { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem; transition: border-color 0.2s, transform 0.2s; }
+  .sk:hover { border-color: rgba(0,229,255,0.18); transform: translateY(-3px); }
+  .sk-i { font-size: 1.5rem; margin-bottom: 0.6rem; }
+  .sk-n { font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .sk-d { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+
+  .blog { background: var(--surface); }
+  .blog-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+  .bg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .card { background: var(--surface2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.25s, border-color 0.25s; cursor: pointer; display: flex; flex-direction: column; }
+  .card:hover { transform: translateY(-6px); border-color: rgba(0,229,255,0.14); }
+  .card.wide { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
+  .ci { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; position: relative; overflow: hidden; background: linear-gradient(135deg, #0d1520, #0a1525); flex-shrink: 0; }
+  .card.wide .ci { height: 100%; min-height: 240px; }
+  .ci::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(0,229,255,0.04) 12px, rgba(0,229,255,0.04) 13px); }
+  .cb { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+  .tag { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.22rem 0.7rem; border-radius: 100px; }
+  .t-erp { background: rgba(0,229,255,0.08); color: var(--accent); }
+  .t-sql { background: rgba(16,185,129,0.08); color: var(--accent3); }
+  .t-proc { background: rgba(245,158,11,0.08); color: var(--warn); }
+  .t-fis { background: rgba(124,58,237,0.08); color: #a78bfa; }
+  .ct { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.4; color: var(--text); }
+  .card.wide .ct { font-size: 1.25rem; }
+  .ce { font-size: 0.84rem; color: var(--muted); line-height: 1.75; flex: 1; }
+  .cm { display: flex; gap: 1rem; font-size: 0.73rem; color: var(--muted); padding-top: 0.5rem; border-top: 1px solid var(--border); margin-top: auto; }
+
+  .ov { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); overflow-y: auto; padding: 2rem; }
+  .ov.open { display: flex; align-items: flex-start; justify-content: center; animation: fi 0.2s ease; }
+  @keyframes fi { from{opacity:0} to{opacity:1} }
+  .ab { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; max-width: 780px; width: 100%; padding: 3rem; position: relative; margin: auto; animation: su 0.3s ease; }
+  @keyframes su { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  .xb { position: absolute; top: 1.5rem; right: 1.5rem; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); width: 36px; height: 36px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: color 0.2s; }
+  .xb:hover { color: var(--text); }
+  .at { font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; margin: 0.8rem 0 0.4rem; }
+  .am { font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .abody h2 { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; margin: 2rem 0 0.7rem; }
+  .abody p { font-size: 0.95rem; color: var(--muted); line-height: 1.9; margin-bottom: 1rem; }
+  .abody p strong { color: var(--text); }
+  .abody ul { list-style: none; margin: 0.4rem 0 1rem; }
+  .abody ul li { padding: 0.4rem 0 0.4rem 1.4rem; position: relative; font-size: 0.93rem; color: var(--muted); line-height: 1.7; }
+  .abody ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; }
+  .code { background: #0a0a15; border: 1px solid rgba(0,229,255,0.1); border-left: 3px solid var(--accent); border-radius: 8px; padding: 1.2rem 1.5rem; font-family: 'Courier New', monospace; font-size: 0.81rem; color: #86efac; line-height: 1.75; overflow-x: auto; margin: 1rem 0; white-space: pre; }
+  .ib { background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.14); border-radius: 10px; padding: 1.1rem 1.4rem; margin: 1.5rem 0; font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+  .ib strong { color: var(--accent); }
+
+  .rec-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+  .rc { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; transition: transform 0.2s, border-color 0.2s; }
+  .rc:hover { transform: translateY(-4px); border-color: rgba(0,229,255,0.18); }
+  .rc::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .r1::before { background: linear-gradient(90deg, var(--accent), transparent); }
+  .r2::before { background: linear-gradient(90deg, var(--accent3), transparent); }
+  .r3::before { background: linear-gradient(90deg, var(--warn), transparent); }
+  .ri { font-size: 2.2rem; margin-bottom: 1rem; }
+  .rn { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+  .rd { font-size: 0.85rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.5rem; }
+  .pill { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; padding: 0.3rem 0.8rem; border-radius: 100px; }
+  .pf { background: rgba(16,185,129,0.1); color: var(--accent3); border: 1px solid rgba(16,185,129,0.2); }
+  .ps { background: rgba(124,58,237,0.1); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
+
+  .contato { background: var(--surface); text-align: center; }
+  .ci2 { max-width: 560px; margin: 0 auto; }
+  .ci2 .sl { margin: 0 auto; }
+  .lr { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; }
+  .cl { display: flex; align-items: center; gap: 0.6rem; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 0.8rem 1.5rem; border-radius: 10px; text-decoration: none; font-size: 0.86rem; font-weight: 500; transition: border-color 0.2s, transform 0.2s, color 0.2s; }
+  .cl:hover { border-color: rgba(0,229,255,0.28); transform: translateY(-2px); color: var(--accent); }
+
+  footer { padding: 2rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--muted); }
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem;}
+    .nav-links{display:none;}
+    section{padding:4.5rem 1.5rem;}
+    .hero{padding:8rem 1.5rem 4rem;}
+    .hero-nums{gap:2rem;flex-wrap:wrap;}
+    .sobre-grid{grid-template-columns:1fr;gap:2.5rem;}
+    .bg{grid-template-columns:1fr;}
+    .card.wide{grid-column:span 1;grid-template-columns:1fr;}
+    .card.wide .ci{height:160px;}
+    .rec-grid{grid-template-columns:1fr;}
+    .blog-top{flex-direction:column;align-items:flex-start;gap:1rem;}
+    .ab{padding:1.8rem;}
+    .at{font-size:1.5rem;}
+    footer{flex-direction:column;gap:0.5rem;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">André Costa<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#recursos">Recursos</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="hero-content">
+    <div class="badge"><span class="pulse"></span>Analista de Sistemas · Medilar · Ribeirão Preto</div>
+    <h1>ERP,<br><span class="ghost">SQL</span> &<br><span class="ac">Processos.</span></h1>
+    <p class="hero-sub">Trabalho com TOTVS Protheus no dia a dia e compartilho aqui o que aprendo sobre gestão de dados, processos empresariais e análise funcional. Conteúdo prático, direto ao ponto.</p>
+    <div class="hero-cta">
+      <a href="#blog" class="btn btn-f">Ver artigos →</a>
+      <a href="#sobre" class="btn btn-o">Sobre mim</a>
+    </div>
+    <div class="hero-nums">
+      <div><div class="nv">5<em>+</em></div><div class="nl">Módulos Protheus</div></div>
+      <div><div class="nv">3<em>+</em></div><div class="nl">Anos com ERP</div></div>
+      <div><div class="nv">∞</div><div class="nl">Queries SQL rodadas</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="mx">
+    <div class="sobre-grid">
+      <div class="sobre-left">
+        <div class="ey">Sobre mim</div>
+        <h2 class="st">Analista que entende<br>o negócio, não só o sistema.</h2><br>
+        <p>Sou <strong>André Costa</strong>, Analista de Sistemas Júnior na <strong>Medilar</strong>, empresa do setor de saúde em Ribeirão Preto, SP. Trabalho diariamente com o ERP TOTVS Protheus nos módulos de compras, estoque, financeiro, contabilidade e configuração.</p>
+        <p>Minha rotina envolve <strong>consultas SQL e auditoria de dados via APSDU</strong>, documentação de processos críticos como o Novo Fluxo de Compras com PO-UI, e a gestão de obrigações fiscais — incluindo a transição para o <strong>Padrão Nacional da NFS-e</strong> e as atualizações de tabelas de IRRF 2026.</p>
+        <p>Esse blog é o lugar onde eu registro o que aprendo na prática. Sem teoria vazia — só o que funciona no mundo real do ERP.</p>
+        <div class="chips">
+          <span class="chip">SIGACOM</span><span class="chip">SIGAEST</span><span class="chip">SIGAFIN</span>
+          <span class="chip">SIGAGCT</span><span class="chip">SIGACFG</span><span class="chip">SQL / APSDU</span>
+          <span class="chip">NFS-e Nacional</span><span class="chip">IRRF</span><span class="chip">PO-UI</span>
+        </div>
+      </div>
+      <div class="sk-grid">
+        <div class="sk"><div class="sk-i">🏭</div><div class="sk-n">ERP TOTVS Protheus</div><div class="sk-d">Implantação, configuração e suporte nos módulos backoffice — compras, estoque, financeiro e contabilidade.</div></div>
+        <div class="sk"><div class="sk-i">🗄️</div><div class="sk-n">SQL & APSDU</div><div class="sk-d">Consultas avançadas, auditoria de dados, validação de saldos e manipulação da base Protheus.</div></div>
+        <div class="sk"><div class="sk-i">📋</div><div class="sk-n">Processos Empresariais</div><div class="sk-d">Mapeamento, documentação e otimização de fluxos — da solicitação de compra ao fechamento financeiro.</div></div>
+        <div class="sk"><div class="sk-i">🧾</div><div class="sk-n">Fiscal / NF-e</div><div class="sk-d">NFS-e Padrão Nacional, IRRF 2026, obrigações fiscais e parâmetros tributários no Protheus.</div></div>
+        <div class="sk"><div class="sk-i">📊</div><div class="sk-n">Análise de Dados</div><div class="sk-d">Cruzamento entre módulos, relatórios gerenciais e identificação de inconsistências.</div></div>
+        <div class="sk"><div class="sk-i">⚙️</div><div class="sk-n">Automação de Processos</div><div class="sk-d">Automação de rotinas manuais, fluxos de aprovação e workflow entre departamentos.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="blog" class="blog">
+  <div class="mx">
+    <div class="blog-top">
+      <div><div class="ey">Blog</div><h2 class="st">Artigos recentes</h2></div>
+      <a href="#blog" class="btn btn-o">Ver todos →</a>
+    </div>
+    <div class="bg">
+      <article class="card wide" onclick="op('a1')">
+        <div class="ci">🛒</div>
+        <div class="cb">
+          <span class="tag t-erp">ERP · SIGACOM</span>
+          <h3 class="ct">Novo Fluxo de Compras (NFC) no Protheus: o que mudou, o que foi descontinuado e como se adaptar</h3>
+          <p class="ce">A TOTVS descontinuou MATA131, MATA150, MATA160 e MATA161 a partir da release 12.1.2410. Entenda o que é o NFC (PGCA010) com PO-UI e como documentar o processo para guiar sua equipe na transição.</p>
+          <div class="cm"><span>📅 Mar 2026</span><span>⏱️ 9 min</span></div>
+        </div>
+      </article>
+      <article class="card" onclick="op('a2')">
+        <div class="ci">🧾</div>
+        <div class="cb">
+          <span class="tag t-fis">Fiscal · NFS-e</span>
+          <h3 class="ct">NFS-e Padrão Nacional: o que mudou em 2026 e o impacto no ERP</h3>
+          <p class="ce">Desde janeiro de 2026 a NFS-e nacional é obrigatória via LC 214/2025. Entenda os novos campos de IBS/CBS e como atualizar os parâmetros no Protheus.</p>
+          <div class="cm"><span>📅 Jan 2026</span><span>⏱️ 7 min</span></div>
+        </div>
+      </article>
+      <article class="card" onclick="op('a3')">
+        <div class="ci">🗄️</div>
+        <div class="cb">
+          <span class="tag t-sql">SQL · APSDU</span>
+          <h3 class="ct">Como usar o APSDU para auditar dados no Protheus sem quebrar nada</h3>
+          <p class="ce">O APSDU é poderosa e pouco documentada. Mostro como usá-la com segurança: consultas, validação de saldos e os erros que você precisa evitar.</p>
+          <div class="cm"><span>📅 Fev 2026</span><span>⏱️ 6 min</span></div>
+        </div>
+      </article>
+      <article class="card" onclick="op('a4')">
+        <div class="ci">📊</div>
+        <div class="cb">
+          <span class="tag t-sql">SQL · SIGAEST · SIGAFIN</span>
+          <h3 class="ct">5 queries SQL essenciais para analistas de Protheus</h3>
+          <p class="ce">Saldo em estoque, conferência SB2 x SB8, títulos em aberto no SIGAFIN — consultas que viraram rotina e economizam horas de trabalho manual.</p>
+          <div class="cm"><span>📅 Mar 2026</span><span>⏱️ 5 min</span></div>
+        </div>
+      </article>
+      <article class="card" onclick="op('a5')">
+        <div class="ci">📋</div>
+        <div class="cb">
+          <span class="tag t-proc">Processos</span>
+          <h3 class="ct">Como documentar processos no Protheus de um jeito que a equipe realmente usa</h3>
+          <p class="ce">Documentação bonita que ninguém lê não serve. Conto o método que uso para criar guias de processo que o time operacional de fato consulta.</p>
+          <div class="cm"><span>📅 Fev 2026</span><span>⏱️ 5 min</span></div>
+        </div>
+      </article>
+      <article class="card" onclick="op('a6')">
+        <div class="ci">💰</div>
+        <div class="cb">
+          <span class="tag t-fis">Fiscal · IRRF</span>
+          <h3 class="ct">Atualização de tabelas IRRF 2026 no Protheus: passo a passo</h3>
+          <p class="ce">Documentei o processo completo de atualização das tabelas IRRF no Protheus para nunca mais precisar pesquisar no suporte toda virada de ano.</p>
+          <div class="cm"><span>📅 Jan 2026</span><span>⏱️ 4 min</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="recursos">
+  <div class="mx">
+    <div class="ey">Recursos</div>
+    <h2 class="st">Templates & materiais gratuitos</h2>
+    <p class="sl">Materiais que uso no trabalho e disponibilizo para quem também trabalha com ERP e processos.</p>
+    <div class="rec-grid">
+      <div class="rc r1"><div class="ri">📋</div><div class="rn">Template de Documentação de Processos</div><div class="rd">Modelo estruturado para documentar fluxos no Protheus. Com campos de responsável, pré-condições, passo a passo numerado e pontos de atenção operacionais.</div><span class="pill pf">✓ Em breve — grátis</span></div>
+      <div class="rc r2"><div class="ri">🗄️</div><div class="rn">Pack de Queries SQL — Protheus</div><div class="rd">Coleção com consultas para SIGACOM, SIGAEST e SIGAFIN. Tabelas SB2, SE2, SC7 e mais — comentadas e prontas para adaptar ao seu ambiente.</div><span class="pill ps">Em produção</span></div>
+      <div class="rc r3"><div class="ri">✅</div><div class="rn">Checklist de Análise Funcional</div><div class="rd">Lista de verificação antes de qualquer implantação ou mudança. Mapeia impactos, responsáveis, tabelas afetadas e pontos de rollback.</div><span class="pill ps">Em produção</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contato" class="contato">
+  <div class="mx">
+    <div class="ci2">
+      <div class="ey">Contato</div>
+      <h2 class="st">Vamos conversar?</h2>
+      <p class="sl">Sugestão de pauta, dúvida técnica ou só trocar ideia sobre Protheus e processos — me manda mensagem.</p>
+      <div class="lr">
+        <a href="https://www.linkedin.com/in/andr%C3%A9-nascimento-costa-70660b214" class="cl" target="_blank">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn
+        </a>
+        <a href="https://www.instagram.com/andre04ofc" class="cl" target="_blank">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 André Costa — Analista de Sistemas</span>
+  <span>Ribeirão Preto, SP</span>
+</footer>
+
+<!-- ══ ARTIGOS ══ -->
+
+<div class="ov" id="a1"><div class="ab">
+  <button class="xb" onclick="cl('a1')">✕</button>
+  <span class="tag t-erp">ERP · SIGACOM</span>
+  <h1 class="at">Novo Fluxo de Compras (NFC) no Protheus: o que mudou e como se adaptar</h1>
+  <div class="am">📅 Março 2026 · ⏱️ 9 min · André Costa</div>
+  <div class="abody">
+    <p>Se você trabalha com o módulo de Compras no Protheus, já deve ter se deparado com a migração para o <strong>Novo Fluxo de Compras (NFC)</strong>, acessado pela rotina <strong>PGCA010</strong> com interface PO-UI. Neste artigo, explico o que mudou, o que foi descontinuado e como documentei esse processo na prática.</p>
+    <h2>O que foi descontinuado?</h2>
+    <p>A TOTVS comunicou a descontinuação das seguintes rotinas a partir da release <strong>12.1.2410</strong>:</p>
+    <ul>
+      <li><strong>MATA131</strong> — Geração de Cotação</li>
+      <li><strong>MATA150</strong> — Atualização da Cotação</li>
+      <li><strong>MATA160 / MATA161</strong> — Análise da Cotação</li>
+    </ul>
+    <p>A partir da release 12.1.2510, essas rotinas simplesmente não estarão mais disponíveis. Quem ainda não migrou precisa correr.</p>
+    <h2>O que é o NFC (PGCA010)?</h2>
+    <p>O NFC é o novo fluxo de compras baseado na interface <strong>PO-UI</strong>. Ele centraliza todo o processo de cotação em uma única tela, com envio de formulários por e-mail para fornecedores e workflow de aprovação integrado.</p>
+    <div class="ib"><strong>Pré-requisitos técnicos:</strong> LIB do Framework ≥ 27/02/2023 · Pacote da Expedição Contínua do Compras · Atualização do dicionário de dados (UPDDISTR) · Rotina PGCA010 adicionada ao menu via SIGACFG.</div>
+    <h2>Fluxo básico do processo</h2>
+    <ul>
+      <li>Criação da Necessidade de Compra</li>
+      <li>Geração da Cotação no PGCA010</li>
+      <li>Envio automático de formulários para fornecedores por e-mail (via Workflow)</li>
+      <li>Retorno e análise das propostas na mesma tela</li>
+      <li>Geração do Pedido de Compra aprovado</li>
+    </ul>
+    <h2>Ponto de atenção: TES no cadastro de produto</h2>
+    <p>Um detalhe importante: a TES (Tipo de Entrada e Saída) amarrada no cadastro de produto <strong>não é preenchida automaticamente</strong> no NFC em todos os cenários. Se isso acontecer, verifique o parâmetro e a configuração do produto antes de acionar o suporte.</p>
+    <h2>Como documentei para minha equipe</h2>
+    <p>Criar um passo a passo com prints de cada etapa, indicando o que cada campo faz e quais são os pontos de atenção, foi fundamental para que o time operacional conseguisse usar o NFC sem depender do TI a cada operação.</p>
+  </div>
+</div></div>
+
+<div class="ov" id="a2"><div class="ab">
+  <button class="xb" onclick="cl('a2')">✕</button>
+  <span class="tag t-fis">Fiscal · NFS-e</span>
+  <h1 class="at">NFS-e Padrão Nacional: o que mudou em 2026 e o impacto no ERP</h1>
+  <div class="am">📅 Janeiro 2026 · ⏱️ 7 min · André Costa</div>
+  <div class="abody">
+    <p>Desde <strong>1º de janeiro de 2026</strong>, a NFS-e em padrão nacional passou a ser obrigatória para todos os municípios brasileiros, conforme a <strong>Lei Complementar nº 214/2025</strong>. Quem trabalha com ERP precisou agir rápido.</p>
+    <h2>Por que o padrão mudou?</h2>
+    <p>Historicamente, cada município tinha seu próprio layout. A reforma tributária aproveitou para <strong>unificar o modelo em nível nacional</strong>, facilitando a fiscalização e preparando o terreno para os novos tributos IBS e CBS.</p>
+    <div class="ib"><strong>Municípios que não aderirem</strong> ao padrão nacional até jan/2026 perdem transferências voluntárias da União — o que colocou pressão real nas prefeituras para migrar.</div>
+    <h2>O que muda na nota fiscal?</h2>
+    <ul>
+      <li>Layout padronizado em todo o território nacional</li>
+      <li>Novos campos para <strong>IBS</strong> (Imposto sobre Bens e Serviços) e <strong>CBS</strong> (Contribuição sobre Bens e Serviços)</li>
+      <li>Integração ao Ambiente de Dados Nacional (ADN)</li>
+      <li>Para Simples Nacional e MEI: mudança técnica apenas em 2026; impacto tributário só a partir de 2027</li>
+    </ul>
+    <h2>Impacto no Protheus</h2>
+    <p>No Protheus, a transição exige atualização dos parâmetros de emissão de NFS-e e, dependendo do município, mudança no webservice utilizado. Os campos de IBS e CBS precisam estar mapeados no dicionário de dados e nas configurações do módulo fiscal.</p>
+    <p>O ponto mais crítico é a <strong>Nota Técnica nº 004</strong>, que atualizou o layout da DPS (Declaração de Prestação de Serviços). A NT 005, publicada em novembro de 2025, traz mais mudanças — mas entra em vigor em data futura ainda a ser confirmada.</p>
+    <h2>O que eu fiz na prática</h2>
+    <p>O processo envolveu verificar o município de emissão, confirmar a adesão da prefeitura ao modelo nacional, atualizar os parâmetros do TSS e validar a emissão em ambiente de homologação antes de ir para produção.</p>
+  </div>
+</div></div>
+
+<div class="ov" id="a3"><div class="ab">
+  <button class="xb" onclick="cl('a3')">✕</button>
+  <span class="tag t-sql">SQL · APSDU</span>
+  <h1 class="at">Como usar o APSDU para auditar dados no Protheus sem quebrar nada</h1>
+  <div class="am">📅 Fevereiro 2026 · ⏱️ 6 min · André Costa</div>
+  <div class="abody">
+    <p>O <strong>APSDU</strong> (Advanced Protheus System Data Utility) é a ferramenta de manipulação direta de dados do Protheus. É poderosa, pouco documentada e, se usada errado, pode causar danos sérios na base.</p>
+    <h2>Quando usar o APSDU?</h2>
+    <ul>
+      <li>Conferir dados diretamente nas tabelas sem passar pela interface</li>
+      <li>Validar inconsistências entre tabelas (ex: SB2 x SD3)</li>
+      <li>Auditar registros excluídos ou modificados</li>
+      <li>Corrigir dados em cenários autorizados pelo consultor TOTVS</li>
+    </ul>
+    <div class="ib"><strong>Importante:</strong> a TOTVS não presta suporte para manipulação direta no banco. Toda alteração via APSDU é de responsabilidade do analista. Nunca altere em produção sem backup.</div>
+    <h2>Consultando saldo de estoque (SB2)</h2>
+    <div class="code">SELECT B2_FILIAL, B2_COD, B2_LOCAL, B2_QATU, B2_CM1
+FROM SB2010
+WHERE B2_FILIAL = '01'
+  AND B2_COD = 'PROD001'
+  AND D_E_L_E_T_ = ' '
+ORDER BY B2_LOCAL</div>
+    <h2>Cruzando SB2 com SD3 (movimentos)</h2>
+    <div class="code">SELECT D3_COD, D3_TM, D3_DOC, D3_QUANT, D3_EMISSAO
+FROM SD3010
+WHERE D3_FILIAL = '01'
+  AND D3_COD = 'PROD001'
+  AND D3_EMISSAO >= '20260101'
+  AND D_E_L_E_T_ = ' '
+ORDER BY D3_EMISSAO DESC</div>
+    <h2>Dica de ouro: sempre filtre o D_E_L_E_T_</h2>
+    <p>No Protheus, registros excluídos <strong>não saem fisicamente da tabela</strong> — eles recebem o caractere '*' no campo <strong>D_E_L_E_T_</strong>. Se você esquecer esse filtro, seus resultados vão incluir dados que o sistema considera deletados.</p>
+  </div>
+</div></div>
+
+<div class="ov" id="a4"><div class="ab">
+  <button class="xb" onclick="cl('a4')">✕</button>
+  <span class="tag t-sql">SQL · SIGAEST · SIGAFIN</span>
+  <h1 class="at">5 queries SQL essenciais para analistas de Protheus</h1>
+  <div class="am">📅 Março 2026 · ⏱️ 5 min · André Costa</div>
+  <div class="abody">
+    <p>Depois de anos rodando consultas no Protheus, algumas queries viraram padrão no meu dia a dia. Aqui estão as 5 que mais uso — comentadas e prontas para adaptar.</p>
+    <h2>1. Títulos em aberto no SIGAFIN (SE2)</h2>
+    <div class="code">SELECT E2_FILIAL, E2_FORNEC, E2_NUM, E2_VALOR,
+       E2_VENCTO, E2_SALDO
+FROM SE2010
+WHERE E2_FILIAL = '01'
+  AND E2_SALDO > 0
+  AND E2_VENCTO &lt;= CONVERT(VARCHAR,GETDATE(),112)
+  AND D_E_L_E_T_ = ' '
+ORDER BY E2_VENCTO</div>
+    <h2>2. Pedidos de compra em aberto (SC7)</h2>
+    <div class="code">SELECT C7_NUM, C7_PRODUTO, C7_DESCRI,
+       C7_QUANT, C7_QUJE,
+       (C7_QUANT - C7_QUJE) AS SALDO_ABERTO
+FROM SC7010
+WHERE C7_FILIAL = '01'
+  AND C7_QUANT > C7_QUJE
+  AND D_E_L_E_T_ = ' '
+ORDER BY C7_NUM</div>
+    <h2>3. Saldo de estoque disponível (SB2 + SB1)</h2>
+    <div class="code">SELECT B2_COD, B1_DESC, B2_LOCAL,
+       B2_QATU AS SALDO_FISICO,
+       B2_RESERVA,
+       (B2_QATU - B2_RESERVA) AS DISPONIVEL
+FROM SB2010 SB2
+JOIN SB1010 SB1 ON SB1.B1_COD = SB2.B2_COD
+WHERE SB2.B2_FILIAL = '01'
+  AND SB2.B2_QATU > 0
+  AND SB2.D_E_L_E_T_ = ' '
+  AND SB1.D_E_L_E_T_ = ' '</div>
+    <h2>4. Notas de entrada recentes (SF1 + SD1)</h2>
+    <div class="code">SELECT F1_DOC, F1_FORNECE, F1_EMISSAO,
+       D1_COD, D1_QUANT, D1_TOTAL
+FROM SF1010 SF1
+JOIN SD1010 SD1 ON SD1.D1_DOC = SF1.F1_DOC
+  AND SD1.D1_FORNECE = SF1.F1_FORNECE
+WHERE SF1.F1_FILIAL = '01'
+  AND SF1.F1_EMISSAO >= '20260101'
+  AND SF1.D_E_L_E_T_ = ' '
+  AND SD1.D_E_L_E_T_ = ' '
+ORDER BY SF1.F1_EMISSAO DESC</div>
+    <h2>5. Detectar inconsistência de saldo (SB2 vs SD3)</h2>
+    <div class="code">SELECT SB2.B2_COD,
+       SB2.B2_QATU AS SALDO_ATUAL,
+       SUM(CASE WHEN D3_TP='E' THEN D3_QUANT
+                WHEN D3_TP='S' THEN -D3_QUANT
+                ELSE 0 END) AS SALDO_CALCULADO
+FROM SB2010 SB2
+LEFT JOIN SD3010 SD3 ON SD3.D3_COD = SB2.B2_COD
+  AND SD3.D_E_L_E_T_ = ' '
+WHERE SB2.B2_FILIAL = '01' AND SB2.D_E_L_E_T_ = ' '
+GROUP BY SB2.B2_COD, SB2.B2_QATU
+HAVING SB2.B2_QATU != SUM(CASE WHEN D3_TP='E' THEN D3_QUANT
+  WHEN D3_TP='S' THEN -D3_QUANT ELSE 0 END)</div>
+    <div class="ib"><strong>Lembrete:</strong> os nomes de tabela variam por empresa/filial (ex: SB2010, SB2020...). Ajuste o sufixo para o seu ambiente.</div>
+  </div>
+</div></div>
+
+<div class="ov" id="a5"><div class="ab">
+  <button class="xb" onclick="cl('a5')">✕</button>
+  <span class="tag t-proc">Processos</span>
+  <h1 class="at">Como documentar processos no Protheus de um jeito que a equipe realmente usa</h1>
+  <div class="am">📅 Fevereiro 2026 · ⏱️ 5 min · André Costa</div>
+  <div class="abody">
+    <p>Documentação linda que ninguém lê não serve para nada. Aprendi isso na prática depois de ver vários PDFs detalhados ficarem encalhados em pastas que ninguém abria.</p>
+    <h2>O problema da documentação tradicional</h2>
+    <p>A maioria das documentações é escrita por alguém técnico, para uma audiência técnica. Mas quem executa o processo é o time operacional — que não tem paciência para ler 30 páginas.</p>
+    <h2>Estrutura que funciona</h2>
+    <ul>
+      <li><strong>Nome do processo e módulo</strong> (ex: Geração de Cotação — SIGACOM)</li>
+      <li><strong>Responsável e substituto</strong></li>
+      <li><strong>Pré-condições</strong> — o que precisa estar pronto antes de começar</li>
+      <li><strong>Passo a passo numerado</strong> com print de tela em cada etapa</li>
+      <li><strong>Pontos de atenção</strong> — os erros mais comuns e como evitá-los</li>
+      <li><strong>O que fazer se der errado</strong> — fluxo de contingência</li>
+    </ul>
+    <h2>Formato: simples bate bonito</h2>
+    <p>Uso Word ou Notion. O importante é que o arquivo seja pesquisável e atualizável. PDF é bonito mas engessa — qualquer mudança de tela exige refazer tudo. Prefiro documento editável com versionamento.</p>
+    <h2>Dica prática: grave o processo uma vez</h2>
+    <p>Antes de escrever, grave um vídeo curto fazendo o processo. Isso serve como rascunho e também como material de treinamento para novos colaboradores. O documento escrito vira o guia de referência rápida.</p>
+    <div class="ib"><strong>Template grátis em breve:</strong> disponibilizo nos Recursos deste site um modelo Word pronto com essa estrutura — é só preencher com o processo da sua empresa.</div>
+  </div>
+</div></div>
+
+<div class="ov" id="a6"><div class="ab">
+  <button class="xb" onclick="cl('a6')">✕</button>
+  <span class="tag t-fis">Fiscal · IRRF</span>
+  <h1 class="at">Atualização de tabelas IRRF 2026 no Protheus: passo a passo</h1>
+  <div class="am">📅 Janeiro 2026 · ⏱️ 4 min · André Costa</div>
+  <div class="abody">
+    <p>Todo início de ano a Receita Federal publica a nova tabela do IRRF e quem trabalha com Protheus precisa atualizar os parâmetros antes de rodar a primeira folha.</p>
+    <h2>O que muda todo ano?</h2>
+    <p>As <strong>faixas de alíquotas</strong> e os <strong>valores de dedução por dependente</strong> são atualizados anualmente. Se os parâmetros não forem atualizados, os cálculos de retenção ficam errados — gerando problemas trabalhistas e fiscais.</p>
+    <h2>Onde fica no Protheus?</h2>
+    <ul>
+      <li>Acesse SIGAGPE → Atualizações → Definições de Cálculo → Tabelas de Impostos</li>
+      <li>Localize a tabela de IRRF e verifique as faixas vigentes</li>
+      <li>Compare com os valores publicados pela Receita Federal para o ano corrente</li>
+      <li>Atualize os valores mantendo o histórico das tabelas anteriores</li>
+    </ul>
+    <h2>Validação após atualização</h2>
+    <p>Sempre faço um cálculo manual para validar antes de liberar para produção. Pegue um colaborador com salário em cada faixa e confira se o IRRF calculado bate com o esperado segundo a tabela oficial.</p>
+    <div class="ib"><strong>Atenção:</strong> se sua empresa usa o TSS para obrigações fiscais, verifique também a atualização de parâmetros nesse ambiente — a tabela pode precisar ser atualizada em mais de um lugar.</div>
+    <h2>Registre sempre quem fez e quando</h2>
+    <p>Documente data da atualização, versão da tabela aplicada e quem executou. Isso é fundamental para auditoria e para rastrear divergências futuras.</p>
+  </div>
+</div></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function op(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+  function cl(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+  document.querySelectorAll('.ov').forEach(el=>{
+    el.addEventListener('click',function(e){if(e.target===this)cl(this.id);});
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')d
