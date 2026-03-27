@@ -1,3 +1,6 @@
+---
+layout: none
+---
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -217,60 +220,32 @@
       <a href="#blog" class="btn btn-o">Ver todos →</a>
     </div>
     <div class="bg">
-      <article class="card wide" onclick="op('a1')">
-        <div class="ci">🛒</div>
-        <div class="cb">
-          <span class="tag t-erp">ERP · SIGACOM</span>
-          <h3 class="ct">Novo Fluxo de Compras (NFC) no Protheus: o que mudou, o que foi descontinuado e como se adaptar</h3>
-          <p class="ce">A TOTVS descontinuou MATA131, MATA150, MATA160 e MATA161 a partir da release 12.1.2410. Entenda o que é o NFC (PGCA010) com PO-UI e como documentar o processo para guiar sua equipe na transição.</p>
-          <div class="cm"><span>📅 Mar 2026</span><span>⏱️ 9 min</span></div>
-        </div>
-      </article>
-      <article class="card" onclick="op('a2')">
-        <div class="ci">🧾</div>
-        <div class="cb">
-          <span class="tag t-fis">Fiscal · NFS-e</span>
-          <h3 class="ct">NFS-e Padrão Nacional: o que mudou em 2026 e o impacto no ERP</h3>
-          <p class="ce">Desde janeiro de 2026 a NFS-e nacional é obrigatória via LC 214/2025. Entenda os novos campos de IBS/CBS e como atualizar os parâmetros no Protheus.</p>
-          <div class="cm"><span>📅 Jan 2026</span><span>⏱️ 7 min</span></div>
-        </div>
-      </article>
-      <article class="card" onclick="op('a3')">
-        <div class="ci">🗄️</div>
-        <div class="cb">
-          <span class="tag t-sql">SQL · APSDU</span>
-          <h3 class="ct">Como usar o APSDU para auditar dados no Protheus sem quebrar nada</h3>
-          <p class="ce">O APSDU é poderosa e pouco documentada. Mostro como usá-la com segurança: consultas, validação de saldos e os erros que você precisa evitar.</p>
-          <div class="cm"><span>📅 Fev 2026</span><span>⏱️ 6 min</span></div>
-        </div>
-      </article>
-      <article class="card" onclick="op('a4')">
-        <div class="ci">📊</div>
-        <div class="cb">
-          <span class="tag t-sql">SQL · SIGAEST · SIGAFIN</span>
-          <h3 class="ct">5 queries SQL essenciais para analistas de Protheus</h3>
-          <p class="ce">Saldo em estoque, conferência SB2 x SB8, títulos em aberto no SIGAFIN — consultas que viraram rotina e economizam horas de trabalho manual.</p>
-          <div class="cm"><span>📅 Mar 2026</span><span>⏱️ 5 min</span></div>
-        </div>
-      </article>
-      <article class="card" onclick="op('a5')">
-        <div class="ci">📋</div>
-        <div class="cb">
-          <span class="tag t-proc">Processos</span>
-          <h3 class="ct">Como documentar processos no Protheus de um jeito que a equipe realmente usa</h3>
-          <p class="ce">Documentação bonita que ninguém lê não serve. Conto o método que uso para criar guias de processo que o time operacional de fato consulta.</p>
-          <div class="cm"><span>📅 Fev 2026</span><span>⏱️ 5 min</span></div>
-        </div>
-      </article>
-      <article class="card" onclick="op('a6')">
-        <div class="ci">💰</div>
-        <div class="cb">
-          <span class="tag t-fis">Fiscal · IRRF</span>
-          <h3 class="ct">Atualização de tabelas IRRF 2026 no Protheus: passo a passo</h3>
-          <p class="ce">Documentei o processo completo de atualização das tabelas IRRF no Protheus para nunca mais precisar pesquisar no suporte toda virada de ano.</p>
-          <div class="cm"><span>📅 Jan 2026</span><span>⏱️ 4 min</span></div>
-        </div>
-      </article>
+      {% assign categorias = "ERP,SQL,Fiscal,Processos" | split: "," %}
+      {% assign emoji_map = "ERP:🏭,SQL:🗄️,Fiscal:🧾,Processos:📋" | split: "," %}
+      {% assign tag_map = "ERP:t-erp,SQL:t-sql,Fiscal:t-fis,Processos:t-proc" | split: "," %}
+      {% for post in site.posts limit:6 %}
+        {% assign is_first = forloop.first %}
+        {% assign cat = post.categoria %}
+        {% assign emoji = "📄" %}
+        {% assign tag_class = "t-erp" %}
+        {% if cat == "ERP" %}{% assign emoji = "🏭" %}{% assign tag_class = "t-erp" %}{% endif %}
+        {% if cat == "SQL" %}{% assign emoji = "🗄️" %}{% assign tag_class = "t-sql" %}{% endif %}
+        {% if cat == "Fiscal" %}{% assign emoji = "🧾" %}{% assign tag_class = "t-fis" %}{% endif %}
+        {% if cat == "Processos" %}{% assign emoji = "📋" %}{% assign tag_class = "t-proc" %}{% endif %}
+        <article class="card {% if is_first %}wide{% endif %}">
+          <a href="{{ post.url | relative_url }}" style="display:contents; text-decoration:none; color:inherit;">
+            <div class="ci">{{ emoji }}</div>
+            <div class="cb">
+              <span class="tag {{ tag_class }}">{{ post.categoria }}{% if post.tags %} · {{ post.tags | first }}{% endif %}</span>
+              <h3 class="ct">{{ post.title }}</h3>
+              <p class="ce">{{ post.resumo }}</p>
+              <div class="cm">
+                <span>📅 {{ post.date | date: "%b %Y" }}</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      {% endfor %}
     </div>
   </div>
 </section>

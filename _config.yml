@@ -1,0 +1,18 @@
+title: André Costa
+description: Analista de Sistemas — ERP, SQL e Processos Empresariais
+url: "https://andrecosta.github.io"
+author: André Costa
+lang: pt-BR
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+permalink: /blog/:year/:month/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
