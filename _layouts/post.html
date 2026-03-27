@@ -1,0 +1,59 @@
+---
+layout: none
+---
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }} — André Costa</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#080810; --surface:#10101c; --accent:#00e5ff; --accent3:#10b981; --warn:#f59e0b; --text:#e8e8f2; --muted:#64748b; --border:rgba(255,255,255,0.06); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.7; }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:1rem 4rem; display:flex; justify-content:space-between; align-items:center; background:rgba(8,8,16,0.9); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+  .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1rem; color:var(--text); text-decoration:none; }
+  .logo span { color:var(--accent); }
+  .back { color:var(--muted); text-decoration:none; font-size:0.85rem; display:flex; align-items:center; gap:0.4rem; transition:color 0.2s; }
+  .back:hover { color:var(--accent); }
+  main { max-width:760px; margin:0 auto; padding:8rem 2rem 5rem; }
+  .tag { display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.25rem 0.7rem; border-radius:100px; margin-bottom:1rem; }
+  .t-ERP { background:rgba(0,229,255,0.08); color:var(--accent); }
+  .t-SQL { background:rgba(16,185,129,0.08); color:var(--accent3); }
+  .t-Fiscal { background:rgba(124,58,237,0.08); color:#a78bfa; }
+  .t-Processos { background:rgba(245,158,11,0.08); color:var(--warn); }
+  h1 { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; line-height:1.15; letter-spacing:-0.025em; margin-bottom:0.5rem; }
+  .meta { font-size:0.8rem; color:var(--muted); margin-bottom:2.5rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
+  .content h2 { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:700; margin:2rem 0 0.75rem; color:var(--text); }
+  .content p { font-size:0.97rem; color:var(--muted); line-height:1.9; margin-bottom:1rem; }
+  .content p strong { color:var(--text); }
+  .content ul { list-style:none; margin:0.5rem 0 1rem; }
+  .content ul li { padding:0.4rem 0 0.4rem 1.4rem; position:relative; font-size:0.93rem; color:var(--muted); line-height:1.7; }
+  .content ul li::before { content:'→'; position:absolute; left:0; color:var(--accent); font-size:0.8rem; }
+  .content ol { margin:0.5rem 0 1rem 1.4rem; }
+  .content ol li { padding:0.3rem 0; font-size:0.93rem; color:var(--muted); line-height:1.7; }
+  .content pre { background:#0a0a15; border:1px solid rgba(0,229,255,0.1); border-left:3px solid var(--accent); border-radius:8px; padding:1.2rem 1.5rem; font-size:0.82rem; color:#86efac; line-height:1.75; overflow-x:auto; margin:1rem 0; }
+  .content code { font-family:'Courier New',monospace; }
+  .content blockquote { background:rgba(0,229,255,0.05); border:1px solid rgba(0,229,255,0.14); border-radius:10px; padding:1.1rem 1.4rem; margin:1.5rem 0; font-size:0.9rem; color:var(--muted); line-height:1.75; }
+  .content blockquote strong { color:var(--accent); }
+  footer { text-align:center; padding:3rem 2rem; border-top:1px solid var(--border); font-size:0.78rem; color:var(--muted); margin-top:4rem; }
+  @media(max-width:600px){ nav{padding:1rem 1.5rem;} main{padding:7rem 1.2rem 4rem;} }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">André Costa<span>.</span></a>
+  <a href="/" class="back">← Voltar ao blog</a>
+</nav>
+<main>
+  <span class="tag t-{{ page.categoria }}">{{ page.categoria }}</span>
+  <h1>{{ page.title }}</h1>
+  <div class="meta">📅 {{ page.date | date: "%d/%m/%Y" }} · por André Costa</div>
+  <div class="content">
+    {{ content }}
+  </div>
+</main>
+<footer>© 2026 André Costa — <a href="/" style="color:var(--accent);text-decoration:none;">andrecosta.github.io</a></footer>
+</body>
+</html>
